@@ -10,7 +10,7 @@ Clearweb is a free, open-source browser extension that silently removes AI-gener
 - Google AI Overviews
 - Bing Copilot sidebar
 - Gemini panels
-- Reddit, YouTube & Amazon AI summaries
+- Reddit, YouTube and Amazon AI summaries
 - Stack Overflow GPT answers
 - Floating chatbot widgets (Intercom, Drift, Tidio, Zendesk, HubSpot and more)
 - Any element labelled "AI-generated" or "Powered by AI"
@@ -18,7 +18,7 @@ Clearweb is a free, open-source browser extension that silently removes AI-gener
 
 ## How it works
 
-Runs silently on every page using four detection methods — site-specific selectors, chatbot widget IDs, class/ID pattern matching, and keyword scanning. Elements are hidden not deleted, so you can toggle it off any time to restore the page instantly.
+Runs silently on every page using four detection methods: site-specific selectors, chatbot widget IDs, class/ID pattern matching, and keyword scanning. Elements are hidden not deleted, so you can toggle it off any time to restore the page instantly.
 
 
 ## Install
