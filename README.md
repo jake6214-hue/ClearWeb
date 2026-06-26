@@ -1,4 +1,4 @@
-Clearweb
+Clearweb.
 The web, without the AI.
 Clearweb is a free, open-source browser extension that removes AI-generated content and chatbot widgets from every website you visit — automatically, silently, and without collecting any data.
 What it removes
