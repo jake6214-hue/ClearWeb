@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clearweb — The web, without the AI</title>
+<meta name="description" content="Clearweb removes AI Overviews, chatbot widgets, and AI-generated content from every website you visit. Free browser extension.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --black: #0c0c0c; --off-white: #f5f5f0; --red: #e63946; --mid: #888; --dim: #333; --border: #1e1e1e; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--off-white); font-family: "Inter", system-ui, sans-serif; line-height: 1.6; overflow-x: hidden; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(12,12,12,0.95); backdrop-filter: blur(12px); z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-family: "Space Grotesk", system-ui, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.3px; color: var(--off-white); text-decoration: none; }
+  .nav-logo-mark { width: 26px; height: 26px; background: var(--red); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-size: 13px; color: var(--mid); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--off-white); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.15s; font-family: "Space Grotesk", system-ui, sans-serif; cursor: pointer; border: none; }
+  .btn-primary { background: var(--off-white); color: var(--black); }
+  .btn-primary:hover { background: #e0e0db; }
+  .btn-red { background: var(--red); color: white; }
+  .btn-red:hover { background: #cc2f3b; }
+  .btn-ghost { background: transparent; color: var(--mid); border: 1px solid var(--dim); }
+  .btn-ghost:hover { color: var(--off-white); border-color: var(--mid); }
+  .btn-lg { padding: 14px 28px; font-size: 15px; }
+  .hero { padding: 100px 48px 80px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
+  .hero-headline { font-family: "Space Grotesk", system-ui, sans-serif; font-size: clamp(40px, 5vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -2px; color: var(--off-white); margin-bottom: 24px; }
+  .hero-headline .strike { position: relative; display: inline-block; color: var(--dim); }
+  .hero-headline .strike::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: var(--red); transform: translateY(-50%) scaleX(0); transform-origin: left; animation: strikethrough 0.6s 0.8s cubic-bezier(.4,0,.2,1) forwards; }
+  @keyframes strikethrough { to { transform: translateY(-50%) scaleX(1); } }
+  .hero-body { font-size: 17px; color: var(--mid); line-height: 1.7; margin-bottom: 36px; max-width: 440px; }
+  .hero-ctas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .hero-note { margin-top: 16px; font-size: 11px; color: var(--dim); }
+  .demo-window { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.6); border: 1px solid #1a1a1a; font-family: Arial, sans-serif; color: #202124; }
+  .demo-chrome { background: #f1f3f4; padding: 10px 14px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #dadce0; }
+  .demo-dots { display: flex; gap: 5px; }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .demo-url { flex: 1; background: white; border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #4d5156; border: 1px solid #dadce0; }
+  .demo-body { padding: 16px; }
+  .demo-ai-block { border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; background: #f8f9fa; transition: all 0.5s ease; }
+  .demo-ai-chip { display: inline-block; background: linear-gradient(135deg, #4285f4, #8a40f5); color: white; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px; }
+  .demo-ai-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .demo-ai-text { font-size: 11px; color: #3c4043; line-height: 1.5; }
+  .demo-removed { display: none; align-items: center; gap: 6px; background: #fafafa; border: 1px dashed #e0e0e0; border-radius: 6px; padding: 8px 10px; margin-bottom: 12px; font-size: 10px; color: #ccc; }
+  .demo-x { background: #e63946; color: white; width: 14px; height: 14px; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; flex-shrink: 0; }
+  .demo-result { margin-bottom: 10px; }
+  .demo-result-url { font-size: 10px; color: #4d5156; margin-bottom: 1px; }
+  .demo-result-title { font-size: 13px; color: #1a0dab; margin-bottom: 2px; }
+  .demo-result-text { font-size: 11px; color: #4d5156; line-height: 1.5; }
+  .demo-ext { position: absolute; top: 52px; right: -8px; width: 200px; background: #0c0c0c; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.7); font-family: "Space Grotesk", system-ui, sans-serif; color: #f5f5f0; font-size: 10px; overflow: hidden; border: 1px solid #1e1e1e; }
+  .demo-ext-header { display: flex; align-items: center; gap: 6px; padding: 10px 10px 8px; border-bottom: 1px solid #1a1a1a; }
+  .demo-ext-logo { width: 18px; height: 18px; background: #e63946; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; flex-shrink: 0; }
+  .demo-ext-brand { font-size: 11px; font-weight: 700; }
+  .demo-ext-body { padding: 8px 10px; }
+  .demo-ext-count { font-size: 22px; font-weight: 700; color: #e63946; }
+  .demo-ext-label { font-size: 9px; color: #555; }
+  .demo-ext-footer { padding: 6px 10px; border-top: 1px solid #141414; display: flex; align-items: center; gap: 5px; }
+  .demo-ext-dot { width: 5px; height: 5px; border-radius: 50%; background: #e63946; }
+  .demo-wrapper { position: relative; }
+  .section { padding: 80px 48px; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+  .section-title { font-family: "Space Grotesk", system-ui, sans-serif; font-size: clamp(28px, 3vw, 42px); font-weight: 700; letter-spacing: -1px; color: var(--off-white); margin-bottom: 48px; max-width: 600px; line-height: 1.15; }
+  .blocks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .block { background: var(--black); padding: 28px 24px; }
+  .block-icon { font-size: 22px; margin-bottom: 12px; }
+  .block-title { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-weight: 600; color: var(--off-white); margin-bottom: 6px; }
+  .block-desc { font-size: 12px; color: var(--mid); line-height: 1.6; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .step-num { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: 1px; margin-bottom: 10px; }
+  .step-title { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 17px; font-weight: 600; color: var(--off-white); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .step-desc { font-size: 13px; color: var(--mid); line-height: 1.7; }
+  .support-section { padding: 80px 48px; background: #0f0f0f; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .support-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .support-title { font-family: "Space Grotesk", system-ui, sans-serif; font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -1px; color: var(--off-white); margin-bottom: 16px; line-height: 1.15; }
+  .support-body { font-size: 15px; color: var(--mid); margin-bottom: 36px; line-height: 1.7; }
+  .support-options { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .support-note { font-size: 12px; color: var(--dim); }
+  footer { padding: 32px 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+  .footer-logo { display: flex; align-items: center; gap: 8px; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-weight: 700; color: var(--off-white); text-decoration: none; }
+  .footer-logo-mark { width: 20px; height: 20px; background: var(--red); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 12px; color: var(--dim); text-decoration: none; }
+  .footer-copy { font-size: 11px; color: var(--dim); }
+  @media (max-width: 768px) { nav { padding: 16px 20px; } .nav-links { display: none; } .hero { grid-template-columns: 1fr; padding: 60px 20px 40px; gap: 40px; } .section { padding: 60px 20px; } .steps { grid-template-columns: 1fr; gap: 32px; } .support-section { padding: 60px 20px; } footer { padding: 24px 20px; flex-direction: column; gap: 16px; text-align: center; } .footer-links { justify-content: center; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo"><div class="nav-logo-mark">✕</div>Clearweb</a>
+  <div class="nav-links">
+    <a href="#what">What it blocks</a>
+    <a href="#how">How it works</a>
+    <a href="#support">Support</a>
+    <a href="https://github.com/jake6214-hue/clearweb" target="_blank">GitHub</a>
+  </div>
+  <a href="#install" class="btn btn-primary">Install free</a>
+</nav>
+<section style="border-bottom: 1px solid var(--border);">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Free browser extension</div>
+      <h1 class="hero-headline">The web,<br>without the <span class="strike">AI</span></h1>
+      <p class="hero-body">AI Overviews. Chatbot bubbles. "Generated by AI" summaries. They are everywhere now and nobody asked for them. Clearweb removes them all, silently, on every site you visit.</p>
+      <div class="hero-ctas">
+        <a href="#install" class="btn btn-primary btn-lg">Add to Chrome, it is free</a>
+        <a href="#what" class="btn btn-ghost btn-lg">See what gets blocked</a>
+      </div>
+      <div class="hero-note">No account &nbsp;·&nbsp; No data collected &nbsp;·&nbsp; Open source</div>
+    </div>
+    <div class="demo-wrapper">
+      <div class="demo-window" id="demo">
+        <div class="demo-chrome">
+          <div class="demo-dots">
+            <div class="demo-dot" style="background:#ff5f57"></div>
+            <div class="demo-dot" style="background:#febc2e"></div>
+            <div class="demo-dot" style="background:#28c840"></div>
+          </div>
+          <div class="demo-url">google.com/search?q=best+coffee+shops+Brighton</div>
+        </div>
+        <div class="demo-body">
+          <div id="demo-ai" class="demo-ai-block">
+            <div class="demo-ai-chip">✦ AI Overview</div>
+            <div class="demo-ai-title">Best coffee shops in Brighton</div>
+            <div class="demo-ai-text">Brighton has a thriving independent coffee scene. Top picks include Small Batch Coffee on Jubilee Street and Redroaster in Kemptown...</div>
+          </div>
+          <div id="demo-removed" class="demo-removed">
+            <div class="demo-x">✕</div>
+            AI Overview removed by Clearweb
+          </div>
+          <div class="demo-result">
+            <div class="demo-result-url">timeout.com › brighton › coffee</div>
+            <div class="demo-result-title">The 12 best coffee shops in Brighton</div>
+            <div class="demo-result-text">The finest independent coffee spots Brighton has to offer...</div>
+          </div>
+          <div class="demo-result">
+            <div class="demo-result-url">visitbrighton.com › food-drink</div>
+            <div class="demo-result-title">Brighton's independent coffee scene</div>
+            <div class="demo-result-text">More independent cafes per capita than almost anywhere in the UK...</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-ext">
+        <div class="demo-ext-header">
+          <div class="demo-ext-logo">✕</div>
+          <div class="demo-ext-brand">Clearweb</div>
+        </div>
+        <div class="demo-ext-body">
+          <div class="demo-ext-count" id="demo-count">0</div>
+          <div class="demo-ext-label">elements removed</div>
+        </div>
+        <div class="demo-ext-footer">
+          <div class="demo-ext-dot"></div>
+          <span style="color:#444;font-size:9px">Active · google.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="border-bottom: 1px solid var(--border);" id="what">
+  <div class="section">
+    <div class="section-label">What gets blocked</div>
+    <h2 class="section-title">Every flavour of AI clutter, gone</h2>
+    <div class="blocks-grid">
+      <div class="block">
+        <div class="block-icon">🔍</div>
+        <div class="block-title">Google AI Overviews</div>
+        <div class="block-desc">The AI summary that pushes real search results down the page. Removed instantly.</div>
+      </div>
+      <div class="block">
+        <div class="block-icon">🤖</div>
+        <div class="block-title">Chatbot widgets</div>
+        <div class="block-desc">Intercom, Drift, Tidio, Zendesk, HubSpot — floating AI chat bubbles on thousands of sites.</div>
+      </div>
+      <div class="block">
+        <div class="block-icon">✦</div>
+        <div class="block-title">Gemini and Copilot panels</div>
+        <div class="block-desc">Bing's AI sidebar, Google's Gemini prompts, GitHub's Copilot UI — all gone.</div>
+      </div>
+      <div class="block">
+        <div class="block-icon">📝</div>
+        <div class="block-title">AI-generated summaries</div>
+        <div class="block-desc">Reddit, Amazon, YouTube, Stack Overflow — AI-written summaries nobody asked for.</div>
+      </div>
+      <div class="block">
+        <div class="block-icon">🏷️</div>
+        <div class="block-title">"Powered by AI" banners</div>
+        <div class="block-desc">Any element labelling itself as AI-generated, across any site, using keyword detection.</div>
+      </div>
+      <div class="block">
+        <div class="block-icon">🌐</div>
+        <div class="block-title">Universal pattern matching</div>
+        <div class="block-desc">Catches new AI widgets automatically, even before specific rules are written for them.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="border-bottom: 1px solid var(--border);" id="how">
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Simple, private, fast</h2>
+    <div class="steps">
+      <div>
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">Install once</div>
+        <div class="step-desc">Add Clearweb to Chrome or Firefox in seconds. No account, no sign-up, no email address needed.</div>
+      </div>
+      <div>
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">Browse normally</div>
+        <div class="step-desc">Clearweb runs silently in the background on every page you visit. AI elements fade out before you even see them.</div>
+      </div>
+      <div>
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">Toggle any time</div>
+        <div class="step-desc">Click the icon to see how many elements were removed, or pause blocking on any site with one click.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding: 80px 48px; border-bottom: 1px solid var(--border);" id="install">
+  <div style="max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;">
+    <div>
+      <div class="section-label">Install</div>
+      <h2 style="font-family:'Space Grotesk',system-ui,sans-serif; font-size: clamp(24px,3vw,36px); font-weight:700; letter-spacing:-1px; color:var(--off-white); margin-bottom:12px; line-height:1.15;">Ready in 30 seconds</h2>
+      <p style="font-size:14px; color:var(--mid); max-width:400px; line-height:1.7;">Free forever. No subscription. Works on Chrome, Edge, Brave, and Firefox.</p>
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-primary btn-lg">Add to Chrome</a>
+      <a href="https://addons.mozilla.org" target="_blank" class="btn btn-ghost btn-lg">Add to Firefox</a>
+      <a href="https://github.com/jake6214-hue/clearweb" target="_blank" class="btn btn-ghost btn-lg">View on GitHub</a>
+    </div>
+  </div>
+</section>
+<div class="support-section" id="support">
+  <div class="support-inner">
+    <div class="section-label" style="text-align:center; margin-bottom:12px;">Support the project</div>
+    <h2 class="support-title">Clearweb is free. Keep it that way.</h2>
+    <p class="support-body">Clearweb will always be free and open source. If it saves you from one AI chatbot bubble per day, consider buying me a coffee. It keeps the rules updated and the lights on.</p>
+    <div class="support-options">
+      <a href="https://ko-fi.com" target="_blank" class="btn btn-red btn-lg">Support on Ko-fi</a>
+      <a href="https://github.com/sponsors/jake6214-hue" target="_blank" class="btn btn-ghost btn-lg">GitHub Sponsors</a>
+    </div>
+    <p class="support-note">No pressure. The extension works exactly the same either way.</p>
+  </div>
+</div>
+<footer>
+  <a href="#" class="footer-logo">
+    <div class="footer-logo-mark">✕</div>
+    Clearweb
+  </a>
+  <div class="footer-links">
+    <a href="https://github.com/jake6214-hue/clearweb" target="_blank">GitHub</a>
+    <a href="https://ko-fi.com" target="_blank">Ko-fi</a>
+  </div>
+  <div class="footer-copy">2025 Clearweb. Free and open source.</div>
+</footer>
+<script>
+  let demoCount = 0;
+  function animateDemo() {
+    const ai = document.getElementById("demo-ai");
+    const removed = document.getElementById("demo-removed");
+    const count = document.getElementById("demo-count");
+    setTimeout(() => {
+      ai.style.transition = "opacity 0.5s, transform 0.5s";
+      ai.style.opacity = "0";
+      ai.style.transform = "scale(0.97)";
+      setTimeout(() => {
+        ai.style.display = "none";
+        removed.style.display = "flex";
+        demoCount = 1;
+        count.textContent = demoCount;
+      }, 500);
+    }, 1200);
+  }
+  animateDemo();
+</script>
+</body>
+</html>
