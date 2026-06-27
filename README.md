@@ -50,7 +50,7 @@ Zero data collection. No analytics. No telemetry. Runs entirely in your browser.
 
 ## Support
 
-Free forever. If you find it useful, support the project on Ko-fi or GitHub Sponsors.
+Free forever. If you find it useful, support the project at https://ko-fi.com/jake6214 or GitHub Sponsors.
 
 
 ## Licence
